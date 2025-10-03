@@ -1,134 +1,60 @@
+# Library Seat Vacancy Tracker
 
-🚀 Project Roadmap: Smart Wi-Fi Based Occupancy & Navigation System
+## Overview
 
-📌 Objective:
+This project estimates how crowded the library is using Wi-Fi data and mobile devices. It collects information from routers and user phones, then shows real-time seat availability on a heatmap.
 
-Build a system that uses Wi-Fi signal data, device scans, and location services to:
-	•	Monitor real-time crowd density
-	•	Display signal strength heatmaps
-	•	Predict occupancy trends
-	•	Enable indoor navigation (optional AR)
+---
 
-⸻
+## Goals
 
-🛠️ Phase 1: Wi-Fi Mapping & Device Tracking (MVP)
+* Count devices connected to library Wi-Fi.
+* Predict crowd density and trends.
+* Visualize occupancy on a live map.
+* Keep data private (anonymized, auto-deleted).
 
-🎯 Goal:
+---
 
-Estimate crowd density by tracking devices connected to routers.
+## How It Works
 
-📋 Tasks:
-	•	Use nmap to scan for connected devices per SSID
-	•	Automate SSID switching (script to hop across known routers)
-	•	Collect SSID + MAC + signal strength
-	•	Visualize with heatmap (using Wigle.net or Mapbox)
-	•	Basic backend setup to store scan results
+1. **Wi-Fi Scans**
 
-✅ Output:
-	•	Real-time device count per location
-	•	Visual heatmap of Wi-Fi coverage
+   * Use `nmap` to find devices per router.
+   * Switch between SSIDs to cover all areas.
+   * Send results (SSID, MAC, signal strength) to backend.
 
-⸻
+2. **Mobile Data (Optional)**
 
-📡 Phase 2: Mobile-Based Passive Data Collection
+   * Android/iOS app records connected SSID + background location.
+   * Data is hashed, timestamped, and synced to backend.
+   * Helps validate Wi-Fi scans.
 
-🎯 Goal:
+3. **Filtering & Accuracy**
 
-Use mobile devices to enhance and validate network scan data.
+   * Ignore personal hotspots.
+   * Add confidence scores where data is sparse.
 
-📋 Tasks:
-	•	Android app to gather:
-	•	Connected SSID
-	•	Background location (low-power mode)
-	•	iOS equivalent using Shortcuts or native app
-	•	Sync data to backend via API
-	•	Anonymize data using device hash/fingerprint
-	•	Include timestamps and auto-expiry of data for privacy
+---
 
-✅ Output:
-	•	Crowd source device presence beyond what nmap can detect
-	•	Create mobility patterns inside mapped spaces
+## Outputs
 
-⸻
+* Real-time device count per zone.
+* Heatmap of library occupancy.
+* Occupancy confidence level.
 
-🚧 Phase 3: Edge Cases & Error Handling
+---
 
-🎯 Goal:
+## Tech Stack
 
-Improve data quality & avoid false positives.
+* **Mobile App:** React Native (Expo, TypeScript)
+* **Backend:** Node.js/Go + PostgreSQL
+* **Scanning:** nmap, Wi-Fi scripts
+* **Visualization:** Mapbox
 
-📋 Tasks:
-	•	Filter out personal hotspots using:
-	•	MAC address vendor prefixes
-	•	Unusual traffic patterns
-	•	Handle users without app installed
-	•	Display confidence level in occupancy estimate
-	•	Investigate feasibility of EACCESS or advanced filtering to identify SSID types
+---
 
-✅ Output:
-	•	More reliable data
-	•	Marked zones with “Low Confidence” when data is sparse
+## Next Steps
 
-⸻
-
-🔮 Phase 4: Predictive Queueing & Forecast System
-
-🎯 Goal:
-
-Forecast near-future occupancy to help users plan their visits.
-
-📋 Tasks:
-	•	Analyze past occupancy data for time-based trends
-	•	Optional “I’m Planning to Go” button for crowdsource forecasting
-	•	Use time-series analysis for trend prediction
-	•	Show low/med/high crowd estimate with time sliders
-
-✅ Output:
-	•	Forecast panel with time-of-day heatmap
-	•	Optional user input queue system (opt-in only)
-
-⸻
-
-🧭 Phase 5: Real-time Indoor Navigation (AR Mode)
-
-🎯 Goal:
-
-Help users navigate within the building using visual cues.
-
-📋 Tasks:
-	•	Map the interior using floorplans or grid-style sections
-	•	Use ARCore (Android) or Unity-based AR to overlay directions
-	•	Use Wi-Fi or BLE triangulation for approximate position
-	•	Link destination to live density to redirect to emptier spaces
-
-✅ Output:
-	•	Arrow-based navigation
-	•	Visual cues that adapt to real-time crowd levels
-
-⸻
-
-📦 Tech Stack Summary
-
-## 📦 Tech Stack Summary
-
-| Layer              | Tools                                |
-|-------------------|--------------------------------------|
-| Network Scanning  | nmap, airmon-ng, Bash/Python     |
-| Backend           | Django / FastAPI                     |
-| Frontend          | React / Next.js / Vue                |
-| Heatmap & Maps    | Mapbox / Leaflet.js / Wigle.net      |
-| Mobile App        | Kotlin (Android) / Swift (iOS)       |
-| AR Navigation     | Unity3D + ARCore / ARKit             |
-| Data Storage      | PostgreSQL / Firebase / TimescaleDB  |
-
-
-
-⸻
-
-💡 Future Enhancements (Post-MVP)
-	•	Voice assistant mode: “Where’s the quietest place right now?”
-	•	AI optimization of router placement using signal patterns
-	•	Integration with library booking or entry systems
-	•	Public dashboard for admin insights
-
-⸻
+* Phase 1: Basic Wi-Fi scanning + backend storage
+* Phase 2: Add mobile app for extra data
+* Phase 3: Improve filtering and confidence
